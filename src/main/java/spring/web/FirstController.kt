@@ -1,13 +1,10 @@
-package spring.controller
+package spring.web
 
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import spring.entities.Person
-import spring.repositories.PersonRepository
+import spring.domain.Person
 import spring.services.PersonService
-import java.util.logging.Logger
 
 @RestController
 @RequestMapping("/")

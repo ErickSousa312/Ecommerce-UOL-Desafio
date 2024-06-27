@@ -187,7 +187,7 @@ Details: kotlinx.serialization compiler plugin internal error: unable to transfo
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
 	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: java.lang.IllegalStateException: Serializer for element of type spring.entities.Order? has not been found
+Caused by: java.lang.IllegalStateException: Serializer for element of type spring.domain.Order? has not been found
 	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.SerializerSearchUtilKt.findTypeSerializerOrContext(SerializerSearchUtil.kt:84)
 	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.BaseIrGenerator.serializerInstance(BaseIrGenerator.kt:713)
 	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.BaseIrGenerator.serializerInstance$instantiate(BaseIrGenerator.kt:546)

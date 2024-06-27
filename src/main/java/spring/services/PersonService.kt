@@ -2,7 +2,7 @@ package spring.services
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import spring.entities.Person
+import spring.domain.Person
 import spring.repositories.PersonRepository
 
 @Service
