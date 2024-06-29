@@ -7,4 +7,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'springKotlin'
+rootProject.name = 'unit-test-spring'

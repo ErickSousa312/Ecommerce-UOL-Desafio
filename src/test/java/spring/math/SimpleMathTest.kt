@@ -11,7 +11,6 @@ import java.util.stream.Stream
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SimpleMathTest {
-
     @ParameterizedTest
     @MethodSource("paramsTest")
     fun simpleMathSumTest(num1: Double, num2: Double, num3: Double) {

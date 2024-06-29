@@ -2,15 +2,19 @@ package spring.domain
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito.anyLong
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
 import spring.common.PlanetConstaints.PLANET
+import spring.common.PlanetConstaints.PLANET_ID
+import java.util.*
 
 
 //@SpringBootTest(classes = [PlanetService::class])
@@ -40,6 +44,24 @@ class PlanetServiceUnitTest {
 
         assertThrows(RuntimeException::class.java) {
             planetService.create(PLANET)
+        }
+    }
+
+    @Test
+    fun getPlanet_byExistingId_shouldReturnPlanet() {
+        `when`(planetRepository.findById(PLANET_ID.id!!)).thenReturn(Optional.of(PLANET_ID))
+
+        val planetFind = planetService.find(PLANET_ID.id!!)
+
+        assertNotNull(planetFind?.id)
+    }
+
+    @Test
+    fun getPlanetByPlanetId_shouldReturnPlanet() {
+        `when`(planetRepository.findById(anyLong())).thenThrow(IllegalArgumentException::class.java)
+
+        assertThrows(IllegalArgumentException::class.java) {
+            val planetFind = planetService.find(PLANET_ID.id!!)
         }
     }
 

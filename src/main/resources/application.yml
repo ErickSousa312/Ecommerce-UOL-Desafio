@@ -1,6 +1,6 @@
 spring:
   application:
-    name: springKotlin
+    name: unit-test-spring
   jpa:
     hibernate:
       ddl-auto: update

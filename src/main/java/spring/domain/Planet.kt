@@ -30,11 +30,16 @@ class Planet(
         return true
     }
 
+
     override fun hashCode(): Int {
         var result = id?.hashCode() ?: 0
         result = 31 * result + (planetName?.hashCode() ?: 0)
         result = 31 * result + (climate?.hashCode() ?: 0)
         result = 31 * result + (terrain?.hashCode() ?: 0)
         return result
+    }
+
+    override fun toString(): String {
+        return "Planet(id=$id, planetName=$planetName, climate=$climate, terrain=$terrain)"
     }
 }
