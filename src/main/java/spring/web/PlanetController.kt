@@ -1,15 +1,12 @@
 package spring.web
 
 import jakarta.validation.Valid
-import jakarta.validation.constraints.Min
-import org.hibernate.validator.constraints.Length
-import org.jetbrains.annotations.NotNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import spring.domain.Planet
 import spring.domain.PlanetService
-import spring.domain.exceptions.ErrorResponse
+import spring.web.exceptions.ErrorResponse
 import java.net.URI
 
 @RestController
@@ -30,9 +27,17 @@ class PlanetController (val planetService: PlanetService){
         val planet = planetService.find(validId)
         return planet?.let {
             ResponseEntity.ok().body(planet)
-        } ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse(
+        } ?: ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+            ErrorResponse(
             message = "Planet not found",
             details = "Planet with id $id does not exist in the database"
-        ))
+        )
+        )
+    }
+
+    @GetMapping("/search")
+    fun finder(@RequestParam name: String): ResponseEntity<out Any> {
+        val planet = planetService.findName(name)
+        return ResponseEntity.ok().body(planet!!)
     }
 }

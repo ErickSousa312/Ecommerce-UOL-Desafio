@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -61,8 +60,7 @@ class PlanetServiceUnitTest {
         `when`(planetRepository.findById(anyLong())).thenThrow(IllegalArgumentException::class.java)
 
         assertThrows(IllegalArgumentException::class.java) {
-            val planetFind = planetService.find(PLANET_ID.id!!)
+            planetService.find(PLANET_ID.id!!)
         }
     }
-
 }

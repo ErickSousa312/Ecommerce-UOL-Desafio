@@ -35,6 +35,4 @@ class SimpleMathTest {
             Arguments.of(4.0, 4.0, 8.0),
         )
     }
-
-
 }

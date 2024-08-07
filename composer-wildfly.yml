@@ -1,0 +1,11 @@
+services:
+  server:
+    image: quay.io/wildfly/wildfly:33.0.0.Final-jdk21
+    container_name: wildfly-container
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+    entrypoint: "/opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0"
+    #docker container exec wildfly-container /opt/jboss/wildfly/bin/add-user.sh admin admin --silent
+    volumes:
+      - ./target/jakarta-ee-1.0.war:/opt/jboss/wildfly/standalone/deployments/jakarta-ee-1.0.war

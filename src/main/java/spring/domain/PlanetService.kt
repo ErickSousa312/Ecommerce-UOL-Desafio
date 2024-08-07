@@ -14,4 +14,8 @@ class PlanetService (val planetRepository: PlanetRepository ) {
     fun find(id : Long) : Planet? {
         return planetRepository.findById(id).orElse(null)
     }
+
+    fun findName(name: String) : Planet? {
+        return planetRepository.findByName(name).orElse(null)
+    }
 }
