@@ -14,6 +14,9 @@ spring:
     password: root
     driver-class-name: org.postgresql.Driver
   security:
+    user:
+      name: admin
+      password: admin
     oauth2:
       resourceserver:
         jwt:
@@ -28,6 +31,9 @@ jwt:
 logging:
   level:
     org:
+      springframework:
+        security: ${SPRING_SECURITY_LOG_LEVEL:TRACE}
+
       hibernate:
         SQL: debug
         type:
