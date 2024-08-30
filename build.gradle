@@ -6,6 +6,7 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '2.0.0'
     id 'org.jetbrains.kotlin.plugin.jpa' version "1.9.22"
     id 'org.jetbrains.kotlin.plugin.spring' version "1.4.21"
+    id "io.freefair.lombok" version "8.10"
 }
 
 group = 'com.example'
@@ -26,7 +27,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.springframework.security:spring-security-test'
@@ -50,6 +50,13 @@ dependencies {
 
     testImplementation 'org.hamcrest:hamcrest:2.2'
 
+//    //gradle lombok
+//
+//    compileOnly 'org.projectlombok:lombok:1.18.34'
+//    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+//
+//    testCompileOnly 'org.projectlombok:lombok:1.18.34'
+//    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
 
 
 }

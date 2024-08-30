@@ -11,13 +11,11 @@ import org.springframework.stereotype.Service;
 import spring.model.Costumer;
 import spring.repository.CustomerRepository;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final CustomerRepository customerRepository;
 
@@ -28,8 +26,8 @@ public class CustomerUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Costumer costumer = customerRepository.findByName(username).orElseThrow(() -> new UsernameNotFoundException("user details not found user: " + username));
+        Costumer costumer = customerRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("user details not found user: " + username));
         List<GrantedAuthority> grantedAuthorities = List.of(new SimpleGrantedAuthority(costumer.getRole()));
-        return new User(costumer.getName(), costumer.getPws(),grantedAuthorities);
+        return new User(costumer.getEmail(), costumer.getPws(),grantedAuthorities);
     }
 }

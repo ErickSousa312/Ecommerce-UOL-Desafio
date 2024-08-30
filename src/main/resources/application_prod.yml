@@ -1,10 +1,9 @@
 spring:
+  config:
+    activate:
+      on-profile: prod
   application:
     name: unit-test-spring
-  config:
-    import: application_prod.yml
-  profiles:
-    active: prod
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,7 +11,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+    show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5432/db
     username: admin
@@ -22,23 +21,12 @@ spring:
     user:
       name: admin
       password: admin
-    oauth2:
-      resourceserver:
-        jwt:
-          public-key-location: classpath:app.pub
-
-jwt:
-  private:
-    key: classpath:app.key
-  public:
-    key: classpath:app.pub
 
 logging:
+  pattern:
+    console: ${LOGPATTERN_CONSOLE:%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n}
   level:
     org:
-      springframework:
-        security: ${SPRING_SECURITY_LOG_LEVEL:TRACE}
-
       hibernate:
         SQL: debug
         type:
