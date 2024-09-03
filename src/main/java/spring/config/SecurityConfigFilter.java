@@ -6,12 +6,16 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import spring.exceptionHandling.CustomBasicAuthenticationEntryPoint;
 import spring.exceptionHandling.CustomHandlerAccessDeniedHandler;
+import spring.filter.JWTTokenGeneratorFilter;
+import spring.filter.JWTValidatorFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -20,16 +24,18 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfigFilter {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.sessionManagement((smc-> smc.maximumSessions(5).maxSessionsPreventsLogin(true)))
+        http.sessionManagement((smc-> smc.sessionCreationPolicy(SessionCreationPolicy.STATELESS).maximumSessions(5).maxSessionsPreventsLogin(true)))
                 .requiresChannel(rcc-> rcc.anyRequest().requiresInsecure())
                 .csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/user/register").authenticated()
-                .requestMatchers("/info/**").hasRole("ADMIN")
+                .requestMatchers("/info/**").permitAll()
                 .anyRequest().authenticated());
         http.formLogin(withDefaults());
         http.httpBasic(hbs -> hbs.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
         http.exceptionHandling(ehc-> ehc.accessDeniedHandler(new CustomHandlerAccessDeniedHandler()));
+        http.addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class);
+        http.addFilterBefore(new JWTValidatorFilter(),BasicAuthenticationFilter.class);
         return http.build();
     }
 

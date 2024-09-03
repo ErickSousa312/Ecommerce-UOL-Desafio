@@ -50,6 +50,12 @@ dependencies {
 
     testImplementation 'org.hamcrest:hamcrest:2.2'
 
+    //JWT
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.6'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.6'
+
+
 //    //gradle lombok
 //
 //    compileOnly 'org.projectlombok:lombok:1.18.34'
