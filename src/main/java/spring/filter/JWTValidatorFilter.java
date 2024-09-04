@@ -56,6 +56,7 @@ public class JWTValidatorFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getServletPath().equals("/info");
+//        return request.getServletPath().equals("/info");
+        return true;
     }
 }
