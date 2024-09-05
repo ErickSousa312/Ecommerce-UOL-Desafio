@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import spring.config.security.userDetails.UserDetailsImpl;
 import spring.event.Login.LoginEventPublisher_experimental;
@@ -14,8 +15,9 @@ public class WelcomeController {
 
     private final LoginEventPublisher_experimental loginEventPublisherExperimental;
 
-    @GetMapping("/wellcome")
-    public String welcome() {
+    @PostMapping("/wellcome")
+    public String welcome(Authentication authentication) {
+        System.out.println(authentication);
         return "Hello World";
     }
     @GetMapping("/info")

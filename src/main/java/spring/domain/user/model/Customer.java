@@ -1,4 +1,4 @@
-package spring.model;
+package spring.domain.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

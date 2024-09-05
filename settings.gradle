@@ -7,4 +7,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'unit-test-spring'
+rootProject.name = 'ecommerce_uol'

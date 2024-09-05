@@ -3,6 +3,7 @@ package spring.config.filter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
@@ -29,7 +30,7 @@ public class SecurityConfigFilter {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,JWTTokenGeneratorFilter jwtTokenGeneratorFilter, JWTValidatorFilter jwtValidatorFilter) throws Exception {
         http.sessionManagement((smc-> smc.sessionCreationPolicy(SessionCreationPolicy.STATELESS)))
-                .requiresChannel(rcc-> rcc.anyRequest().requiresInsecure())
+//                .requiresChannel(rcc-> rcc.anyRequest().requiresInsecure())
                 .csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/user/apiLogin").permitAll()
