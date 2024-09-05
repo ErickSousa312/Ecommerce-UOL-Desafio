@@ -61,8 +61,8 @@ public class UserController {
                     .builder()
                     .issuer("teste")
                     .subject("JWT Token")
-                    .claim("email", authentication.getName())
-                    .claim("role", authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
+                    .claim("email", authenticationResponse.getName())
+                    .claim("role", authenticationResponse.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
                     .issuedAt(new Date())
                     .expiration(new Date(new Date().getTime() + 1000 * 60 * 60 * 24))
                     .signWith(secretKey).compact();

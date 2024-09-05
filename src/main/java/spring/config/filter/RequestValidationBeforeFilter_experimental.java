@@ -1,4 +1,4 @@
-package spring.filter;
+package spring.config.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Component
-public class RequestValidationBeforeFilter extends OncePerRequestFilter {
+public class RequestValidationBeforeFilter_experimental extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(

@@ -1,4 +1,4 @@
-package spring.config;
+package spring.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +15,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import spring.exceptionHandling.CustomBasicAuthenticationEntryPoint;
-import spring.exceptionHandling.CustomHandlerAccessDeniedHandler;
-import spring.filter.JWTTokenGeneratorFilter;
-import spring.filter.JWTValidatorFilter;
+import spring.config.security.provider.CustomProviderAuthentication;
+import spring.config.security.exceptionHandling.CustomBasicAuthenticationEntryPoint;
+import spring.config.security.exceptionHandling.CustomHandlerAccessDeniedHandler;
+import spring.config.filter.JWT.JWTTokenGeneratorFilter;
+import spring.config.filter.JWT.JWTValidatorFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -26,7 +27,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Profile("!prod")
 public class SecurityConfigFilter {
     @Bean
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,JWTTokenGeneratorFilter jwtTokenGeneratorFilter, JWTValidatorFilter jwtValidatorFilter) throws Exception {
         http.sessionManagement((smc-> smc.sessionCreationPolicy(SessionCreationPolicy.STATELESS)))
                 .requiresChannel(rcc-> rcc.anyRequest().requiresInsecure())
                 .csrf(AbstractHttpConfigurer::disable);
@@ -38,8 +39,8 @@ public class SecurityConfigFilter {
         http.formLogin(withDefaults());
         http.httpBasic(hbs -> hbs.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
         http.exceptionHandling(ehc-> ehc.accessDeniedHandler(new CustomHandlerAccessDeniedHandler()));
-        http.addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class);
-        http.addFilterBefore(new JWTValidatorFilter(),BasicAuthenticationFilter.class);
+        http.addFilterAfter(jwtTokenGeneratorFilter, BasicAuthenticationFilter.class);
+        http.addFilterBefore(jwtValidatorFilter, BasicAuthenticationFilter.class);
         return http.build();
     }
 

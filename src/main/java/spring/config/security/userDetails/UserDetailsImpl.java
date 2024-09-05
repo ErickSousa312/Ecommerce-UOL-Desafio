@@ -1,8 +1,7 @@
-package spring.config;
+package spring.config.security.userDetails;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 
@@ -13,6 +12,7 @@ public class UserDetailsImpl implements UserDetails {
     private final String username;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
+    @Getter
     private final String additionalParameter;
     private final boolean accountNonExpired;
     private final boolean accountNonLocked;
@@ -40,7 +40,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authorities;
     }
 
     @Override

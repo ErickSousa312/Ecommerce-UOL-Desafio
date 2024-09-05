@@ -1,4 +1,4 @@
-package spring.config;
+package spring.config.security.provider;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -20,11 +20,6 @@ public class CustomProviderAuthenticationProd implements AuthenticationProvider 
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * @param authentication the authentication request object.
-     * @return
-     * @throws AuthenticationException
-     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
@@ -36,13 +31,8 @@ public class CustomProviderAuthenticationProd implements AuthenticationProvider 
             throw new BadCredentialsException("Bad credentials");
         }
         return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
-
     }
 
-    /**
-     * @param authentication
-     * @return
-     */
     @Override
     public boolean supports(Class<?> authentication) {
         return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));

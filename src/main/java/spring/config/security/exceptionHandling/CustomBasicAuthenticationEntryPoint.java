@@ -1,4 +1,4 @@
-package spring.exceptionHandling;
+package spring.config.security.exceptionHandling;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package spring.eventListener;
+package spring.event.Login;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class LoginEventPublisher {
+public class LoginEventPublisher_experimental {
 
     private final ApplicationEventPublisher eventPublisher;
 
     public void publish(String message) {
-        EventSuccessfulLogin event = new EventSuccessfulLogin(this, message);
+        EventSuccessfulLogin_experimental event = new EventSuccessfulLogin_experimental(this, message);
         eventPublisher.publishEvent(event);
     }
 }

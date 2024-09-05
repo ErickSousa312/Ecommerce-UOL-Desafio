@@ -3,16 +3,16 @@ package spring;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import spring.eventListener.LoginEventPublisher;
+import spring.config.security.userDetails.UserDetailsImpl;
+import spring.event.Login.LoginEventPublisher_experimental;
 
 @RestController
 @RequiredArgsConstructor
 public class WelcomeController {
 
-    private final LoginEventPublisher loginEventPublisher;
+    private final LoginEventPublisher_experimental loginEventPublisherExperimental;
 
     @GetMapping("/wellcome")
     public String welcome() {
@@ -21,13 +21,14 @@ public class WelcomeController {
     @GetMapping("/info")
     public String userInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String username = authentication.getName();
         String authorities = authentication.getAuthorities().toString();
-        return "Usuário: " + username + ", Permissões: " + authorities;
+        return "Usuário: " + username + ", Permissões: " + authorities + "  Dados adicionais:" + userDetails.getAdditionalParameter();
     }
     @GetMapping("/event")
     public String event() {
-        loginEventPublisher.publish("usuario: " + SecurityContextHolder.getContext().getAuthentication().getName());
+        loginEventPublisherExperimental.publish("usuario: " + SecurityContextHolder.getContext().getAuthentication().getName());
         return "Evento publicado com sucesso!";
     }
 }

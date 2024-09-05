@@ -1,9 +1,8 @@
-package spring.config;
+package spring.config.security.provider;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -24,16 +23,12 @@ public class CustomProviderAuthentication implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String userPwd = authentication.getCredentials().toString();
-
         UserDetails userDetails =  userDetailsService.loadUserByUsername(username);
+        // adicionar validação de match de senhas
 
         return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
-    /**
-     * @param authentication
-     * @return
-     */
     @Override
     public boolean supports(Class<?> authentication) {
         return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
