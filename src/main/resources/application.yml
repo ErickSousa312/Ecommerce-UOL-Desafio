@@ -4,7 +4,7 @@ spring:
   config:
     import: application_prod.yml
   profiles:
-    active: prod
+    active: default
   jpa:
     hibernate:
       ddl-auto: update
