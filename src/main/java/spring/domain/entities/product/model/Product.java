@@ -1,11 +1,11 @@
-package spring.domain.product.model;
+package spring.domain.entities.product.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import spring.domain.product.enums.ProductStatus;
-import spring.domain.sale.model.Sale;
+import spring.domain.entities.product.enums.ProductStatus;
+import spring.domain.entities.sale.model.Sale;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -19,7 +19,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(name="product_name")
+    private String productName;
 
     private BigDecimal price;
 

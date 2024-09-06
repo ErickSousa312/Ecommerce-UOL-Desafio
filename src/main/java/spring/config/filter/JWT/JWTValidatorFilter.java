@@ -7,8 +7,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import spring.constants.ApplicationConstants;
@@ -25,7 +27,8 @@ public class JWTValidatorFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = request.getHeader(ApplicationConstants.JWT_HEADER);
-            Authentication authentication = jwtService.getPayloadByTokenHeader(jwt);
+            UsernamePasswordAuthenticationToken authentication = jwtService.getPayloadByTokenHeader(jwt);
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception exception) {
             throw new BadCredentialsException("Invalid Token received!");

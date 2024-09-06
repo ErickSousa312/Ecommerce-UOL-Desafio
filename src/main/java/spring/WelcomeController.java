@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import spring.config.security.userDetails.UserDetailsImpl;
-import spring.event.Login.LoginEventPublisher_experimental;
+import spring.domain.events.Login.LoginEventPublisher_experimental;
 
 @RestController
 @RequiredArgsConstructor

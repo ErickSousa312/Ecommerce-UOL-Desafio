@@ -1,4 +1,4 @@
-package spring.domain.sale.dto;
+package spring.domain.entities.sale.dto;
 
 import lombok.Getter;
 import lombok.Setter;

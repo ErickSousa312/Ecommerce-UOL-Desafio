@@ -1,4 +1,4 @@
-package spring.event.Login;
+package spring.domain.events.Login;
 
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;

@@ -40,7 +40,7 @@ public class JWTService {
         return token;
     }
 
-    public Authentication getPayloadByTokenHeader(String jwt) {
+    public UsernamePasswordAuthenticationToken  getPayloadByTokenHeader(String jwt) {
         if (jwt.startsWith("Bearer ")) {
             String token = jwt.substring(7);
             String secret = env.getProperty(ApplicationConstants.JWT_SECRET,
@@ -50,7 +50,7 @@ public class JWTService {
                     .build().parseSignedClaims(token).getPayload();
             String username = String.valueOf(claims.get("email"));
             String authorities = String.valueOf(claims.get("role"));
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null,
+            UsernamePasswordAuthenticationToken  authentication = new UsernamePasswordAuthenticationToken (username, null,
                     AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
             return  authentication;
         }
@@ -61,7 +61,7 @@ public class JWTService {
                 .build().parseSignedClaims(jwt).getPayload();
         String username = String.valueOf(claims.get("username"));
         String authorities = String.valueOf(claims.get("authorities"));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null,
+        UsernamePasswordAuthenticationToken  authentication = new UsernamePasswordAuthenticationToken(username, null,
                 AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
         return  authentication;
     }

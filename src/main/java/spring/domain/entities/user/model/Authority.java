@@ -1,4 +1,4 @@
-package spring.domain.user.model;
+package spring.domain.entities.user.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,6 +1,6 @@
-package spring.domain.sale.model;
+package spring.domain.entities.sale.model;
 import jakarta.persistence.*;
-import spring.domain.product.model.Product;
+import spring.domain.entities.product.model.Product;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,34 +1,26 @@
-package spring.controller;
+package spring.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.function.EntityResponse;
-import spring.domain.product.dto.CreateProductDTO;
-import spring.domain.product.dto.ResponseProductDTO;
-import spring.domain.product.mapper.ProductMapper;
-import spring.domain.product.model.Product;
+import spring.domain.entities.product.dto.CreateProductDTO;
+import spring.domain.entities.product.mapper.ProductMapper;
+import spring.domain.entities.product.model.Product;
+import spring.domain.services.ProductService;
 
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductMapper productMapper;
+    private final ProductService productService;
 
     @PostMapping("/product")
-    public ResponseEntity<?> addProduct(@RequestBody CreateProductDTO createProductDTO) {
-        try {
-            System.out.println(createProductDTO);
-            Product product = productMapper.toProduct(createProductDTO);
-            CreateProductDTO createProductDTO1 = productMapper.toCreateProduct(product);
-            return ResponseEntity.status(HttpStatus.CREATED).body(product);
-        }catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+    public ResponseEntity<Product> addProduct(@RequestBody CreateProductDTO createProductDTO) {
+            Product createdProduct = productService.saveProduct(createProductDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
-
 }

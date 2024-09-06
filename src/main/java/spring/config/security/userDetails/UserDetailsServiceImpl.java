@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import spring.domain.user.model.Customer;
-import spring.repository.CustomerRepository;
+import spring.domain.entities.user.model.Customer;
+import spring.domain.repositories.CustomerRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;

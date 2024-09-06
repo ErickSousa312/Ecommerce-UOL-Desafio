@@ -1,4 +1,4 @@
-package spring.controller;
+package spring.web.controller;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -13,10 +13,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import spring.constants.ApplicationConstants;
-import spring.domain.user.model.Customer;
-import spring.domain.user.dto.LoginRequestDTO;
-import spring.domain.user.dto.LoginResponseDTO;
-import spring.repository.CustomerRepository;
+import spring.domain.entities.user.model.Customer;
+import spring.domain.entities.user.dto.LoginRequestDTO;
+import spring.domain.entities.user.dto.LoginResponseDTO;
+import spring.domain.repositories.CustomerRepository;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;

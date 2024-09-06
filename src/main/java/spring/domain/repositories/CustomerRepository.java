@@ -1,8 +1,8 @@
-package spring.repository;
+package spring.domain.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import spring.domain.user.model.Customer;
+import spring.domain.entities.user.model.Customer;
 
 import java.util.Optional;
 
