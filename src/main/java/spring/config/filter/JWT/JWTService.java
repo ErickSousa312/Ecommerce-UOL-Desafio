@@ -42,17 +42,21 @@ public class JWTService {
 
     public UsernamePasswordAuthenticationToken  getPayloadByTokenHeader(String jwt) {
         if (jwt.startsWith("Bearer ")) {
-            String token = jwt.substring(7);
-            String secret = env.getProperty(ApplicationConstants.JWT_SECRET,
-                    ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
-            SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-            Claims claims = Jwts.parser().verifyWith(secretKey)
-                    .build().parseSignedClaims(token).getPayload();
-            String username = String.valueOf(claims.get("email"));
-            String authorities = String.valueOf(claims.get("role"));
-            UsernamePasswordAuthenticationToken  authentication = new UsernamePasswordAuthenticationToken (username, null,
-                    AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
-            return  authentication;
+            try{
+                String token = jwt.substring(7);
+                String secret = env.getProperty(ApplicationConstants.JWT_SECRET,
+                        ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
+                SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+                Claims claims = Jwts.parser().verifyWith(secretKey)
+                        .build().parseSignedClaims(token).getPayload();
+                String username = String.valueOf(claims.get("email"));
+                String authorities = String.valueOf(claims.get("role"));
+                UsernamePasswordAuthenticationToken  authentication = new UsernamePasswordAuthenticationToken (username, null,
+                        AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
+                return  authentication;
+            }catch (RuntimeException exception){
+                throw new RuntimeException("Erro ao gerar token JWT", exception);
+            }
         }
         String secret = env.getProperty(ApplicationConstants.JWT_SECRET,
                 ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);

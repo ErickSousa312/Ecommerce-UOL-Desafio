@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import spring.config.security.exceptionHandling.CustomBasicAuthenticationEntryPoint;
@@ -36,8 +37,8 @@ public class SecurityConfigFilter {
                 .requestMatchers("/wellcome").permitAll()
                 .anyRequest().authenticated());
         http.formLogin(withDefaults());
-        http.httpBasic(hbs -> hbs.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
-        http.exceptionHandling(ehc-> ehc.accessDeniedHandler(new CustomHandlerAccessDeniedHandler()));
+//        http.httpBasic(hbs -> hbs.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+        http.exceptionHandling(ehc-> ehc.accessDeniedHandler(new CustomHandlerAccessDeniedHandler()).authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
         http.anonymous(AbstractHttpConfigurer::disable);
         http.addFilterAfter(jwtTokenGeneratorFilter, BasicAuthenticationFilter.class);
         http.addFilterBefore(jwtValidatorFilter, BasicAuthenticationFilter.class);

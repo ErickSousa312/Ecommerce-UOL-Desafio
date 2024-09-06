@@ -3,6 +3,7 @@ package spring.config.advice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import spring.web.execption.CustomRunTimeException;
@@ -38,6 +39,12 @@ public class AdviceExceptionHandler {
     public ResponseEntity<ErrorResponseImpl> customHandleRuntimeException(CustomRunTimeException ex) {
         ErrorResponseImpl errorResponse = new ErrorResponseImpl(ex.getMessage(), ex.getHttpStatus());
         return ResponseEntity.status(ex.getHttpStatus()).body(errorResponse);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponseImpl> HandleFilterRuntimeException(AuthenticationException ex) {
+        ErrorResponseImpl errorResponse = new ErrorResponseImpl(ex.getMessage(), HttpStatus.ACCEPTED);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(errorResponse);
     }
 
 }
