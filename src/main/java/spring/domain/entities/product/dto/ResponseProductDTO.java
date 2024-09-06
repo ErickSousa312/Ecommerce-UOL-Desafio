@@ -9,5 +9,5 @@ public class ResponseProductDTO {
     private String productName;
     private Double price;
     private String status;
-    private Number stock;
+    private Integer stock;
 }
