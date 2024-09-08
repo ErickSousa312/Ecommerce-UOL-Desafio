@@ -40,6 +40,9 @@ public class JWTValidatorFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String authorizationHeader = request.getHeader(ApplicationConstants.JWT_HEADER);
-        return authorizationHeader != null && !authorizationHeader.startsWith("Bearer ");
+        if(authorizationHeader == null){
+            return true;
+        }
+        return !authorizationHeader.startsWith("Bearer ");
     }
 }

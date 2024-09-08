@@ -3,14 +3,15 @@ package spring.web.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import spring.domain.entities.sale.dto.CreateSaleDTO;
 import spring.domain.entities.sale.model.Sale;
 import spring.domain.repositories.SaleRepository;
 import spring.domain.services.SaleService;
+import spring.web.execption.EntityNotFound;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/sales")
@@ -20,8 +21,29 @@ public class SaleController {
     private final SaleService saleService;
 
     @PostMapping
-    public ResponseEntity<Sale> save(@RequestBody CreateSaleDTO saleDTO){
+    public ResponseEntity<Sale> addSale(@RequestBody CreateSaleDTO saleDTO){
         Sale sale = saleService.save(saleDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(sale);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Sale>> getAllSales(){
+        List<Sale> sales = saleService.findAll();
+        if(sales.isEmpty()){
+            throw new EntityNotFound("Sales", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(sales);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Sale> findSaleById(@PathVariable Long id){
+        Sale sale = saleService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(sale);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Sale> updatePutSale(@PathVariable Long id, @RequestBody CreateSaleDTO saleDTO){
+        Sale sale = saleService.updateById(id,saleDTO);
         return ResponseEntity.status(HttpStatus.OK).body(sale);
     }
 }

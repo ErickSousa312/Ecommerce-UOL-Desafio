@@ -3,6 +3,7 @@ package spring.domain.entities.sale.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import spring.domain.entities.user.model.Customer;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,9 +21,13 @@ public class Sale {
 
     private LocalDateTime date;
 
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Customer costumer;
+
     private BigDecimal totalAmount = BigDecimal.valueOf(0);
 
-    @OneToMany(mappedBy = "sale", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sale", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<QuantityProduct> products;
 
     public void validateSale() {
@@ -30,6 +35,8 @@ public class Sale {
             throw new IllegalArgumentException("Sale must have at least one product");
         }
     }
+
+
 
     public void addAmount(BigDecimal quantity) {
         if (quantity == null) {

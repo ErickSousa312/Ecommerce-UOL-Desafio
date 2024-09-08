@@ -35,6 +35,13 @@ public class Product {
         }
     }
 
+    public void addStock(Integer quantity) {
+        if (this.stock == null || this.stock < quantity) {
+            throw new IllegalArgumentException("QuantityProduct must be greater than or equal to stock.");
+        }
+        this.stock += quantity;
+    }
+
     public void reducerStock(Integer quantity) {
         if (this.stock == null || this.stock < quantity) {
             throw new IllegalArgumentException("QuantityProduct must be greater than or equal to stock.");

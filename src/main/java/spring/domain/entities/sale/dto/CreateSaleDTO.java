@@ -12,8 +12,7 @@ import java.util.Set;
 @Getter @Setter
 public class CreateSaleDTO {
     private LocalDateTime date;
+    private Long clientId;
     private BigDecimal totalAmount;
     private Map<Long,Integer> productQuantitiesAndIdProducts;
-
-
 }
