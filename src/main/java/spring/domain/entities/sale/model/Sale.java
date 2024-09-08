@@ -1,8 +1,8 @@
 package spring.domain.entities.sale.model;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import spring.domain.entities.product.model.Product;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,7 +10,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "sale")
-@Getter @Setter
+@Getter
+@Setter
 public class Sale {
 
     @Id
@@ -21,14 +22,8 @@ public class Sale {
 
     private BigDecimal totalAmount;
 
-    @ManyToMany
-    @JoinTable(
-            name = "sale_product",
-            joinColumns = @JoinColumn(name = "sale_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private Set<Product> products;
-
+    @OneToMany(mappedBy = "sale", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<QuantityProduct> products;
 
     public void validateSale() {
         if (this.products == null || this.products.isEmpty()) {
@@ -36,9 +31,8 @@ public class Sale {
         }
     }
 
-    public void calculateTotalAmount() {
-        this.totalAmount = products.stream()
-                .map(Product::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    public void addAmount(BigDecimal quantity) {
+        this.totalAmount = this.totalAmount.add(quantity);
     }
+
 }

@@ -1,16 +1,19 @@
 package spring.domain.entities.sale.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Set;
 
+@AllArgsConstructor
 @Getter @Setter
 public class CreateSaleDTO {
-    private Long id;
     private LocalDateTime date;
     private BigDecimal totalAmount;
-    private Set<Long> productIds;
+    private Map<Long,Integer> productQuantitiesAndIdProducts;
+
+
 }
