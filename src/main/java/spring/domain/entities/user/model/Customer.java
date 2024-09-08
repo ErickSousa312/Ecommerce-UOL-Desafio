@@ -24,6 +24,5 @@ public class Customer {
     @Column(name="role")
     private String role;
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonIgnore
     private Set<Authority> authority;
 }

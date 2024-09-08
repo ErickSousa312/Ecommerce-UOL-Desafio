@@ -13,10 +13,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import spring.constants.ApplicationConstants;
+import spring.domain.entities.user.model.Authority;
 import spring.domain.entities.user.model.Customer;
 import spring.domain.entities.user.dto.LoginRequestDTO;
 import spring.domain.entities.user.dto.LoginResponseDTO;
 import spring.domain.repositories.CustomerRepository;
+import spring.domain.services.JWTService;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -32,11 +34,16 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final Environment env;
+    private final JWTService jwtService;
 
     @PostMapping("/register")
     ResponseEntity<String> RegisterUser(@RequestBody Customer customer) {
         try {
             String encodedPassword = passwordEncoder.encode(customer.getPws());
+
+            for (Authority authority : customer.getAuthority()) {
+                authority.setCustomer(customer);
+            }
             customer.setPws(encodedPassword);
             Customer newUser = customerRepository.save(customer);
             if (newUser.getId() > 0) {
@@ -54,17 +61,7 @@ public class UserController {
         Authentication authentication = UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.userName(), loginRequest.password());
         Authentication authenticationResponse = authenticationManager.authenticate(authentication);
         if(authenticationResponse.isAuthenticated()) {
-            String secret = env.getProperty(ApplicationConstants.JWT_SECRET, ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
-            SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-            jwt = Jwts
-                    .builder()
-                    .issuer("teste")
-                    .subject("JWT Token")
-                    .claim("email", authenticationResponse.getName())
-                    .claim("role", authenticationResponse.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
-                    .issuedAt(new Date())
-                    .expiration(new Date(new Date().getTime() + 1000 * 60 * 60 * 24))
-                    .signWith(secretKey).compact();
+            jwt = jwtService.generateJWT(authenticationResponse);
         }
         return ResponseEntity.status(HttpStatus.OK).header(ApplicationConstants.JWT_HEADER,jwt)
                 .body(new LoginResponseDTO(HttpStatus.OK.getReasonPhrase(),jwt));

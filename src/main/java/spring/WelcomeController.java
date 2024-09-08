@@ -15,7 +15,7 @@ public class WelcomeController {
 
     private final LoginEventPublisher_experimental loginEventPublisherExperimental;
 
-    @PostMapping("/wellcome")
+    @GetMapping("/wellcome")
     public String welcome(Authentication authentication) {
         System.out.println(authentication);
         return "Hello World";

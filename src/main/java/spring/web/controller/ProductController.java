@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.domain.entities.product.dto.CreateProductDTO;
 import spring.domain.entities.product.dto.ResponseProductDTO;
+import spring.domain.entities.product.dto.UpdateProductDTO;
 import spring.domain.entities.product.mapper.ProductMapper;
 import spring.domain.entities.product.model.Product;
 import spring.domain.repositories.ProductRepository;
@@ -42,9 +43,16 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
-    @PatchMapping({"/{id}"})
-    public ResponseEntity<ResponseProductDTO> updateProduct(@RequestBody CreateProductDTO productDTO, @PathVariable Long id) {
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseProductDTO> updatePutProduct(@RequestBody CreateProductDTO productDTO, @PathVariable Long id) {
         Product productUpdated = productService.updateById(productDTO, id);
+        ResponseProductDTO responseProductDTO = productMapper.toResponseProductDTO(productUpdated);
+        return ResponseEntity.status(HttpStatus.OK).body(responseProductDTO);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ResponseProductDTO> updatePatchProduct(@RequestBody UpdateProductDTO productDTO, @PathVariable Long id) {
+        Product productUpdated = productService.updatePartialById(productDTO, id);
         ResponseProductDTO responseProductDTO = productMapper.toResponseProductDTO(productUpdated);
         return ResponseEntity.status(HttpStatus.OK).body(responseProductDTO);
     }

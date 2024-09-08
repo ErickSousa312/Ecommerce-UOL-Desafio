@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import spring.domain.entities.product.dto.CreateProductDTO;
 import spring.domain.entities.product.dto.ResponseProductDTO;
+import spring.domain.entities.product.dto.UpdateProductDTO;
 import spring.domain.entities.product.mapper.ProductMapper;
 import spring.domain.entities.product.model.Product;
 import spring.domain.repositories.ProductRepository;
@@ -61,6 +62,15 @@ public class ProductService {
         Product productConverted = productMapper.toProduct(productDTO);
         productConverted.setId(id);
         return productRepository.save(productConverted);
+    }
+
+    public Product updatePartialById(UpdateProductDTO updateProductDTO, Long id)  {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isEmpty()) {
+            throw new EntityNotFound("Product", HttpStatus.NOT_FOUND);
+        }
+        productMapper.updateProductFromDto(updateProductDTO,product.get());
+        return productRepository.save(product.get());
     }
 
     public Product findById(Long id) {

@@ -34,12 +34,13 @@ public class SecurityConfigFilter {
                 .csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/user/apiLogin").permitAll()
+                .requestMatchers("/info").permitAll()
                 .requestMatchers("/wellcome").permitAll()
                 .anyRequest().authenticated());
         http.formLogin(withDefaults());
-//        http.httpBasic(hbs -> hbs.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+        http.httpBasic(hbs -> hbs.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
         http.exceptionHandling(ehc-> ehc.accessDeniedHandler(new CustomHandlerAccessDeniedHandler()).authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
-        http.anonymous(AbstractHttpConfigurer::disable);
+//        http.anonymous(AbstractHttpConfigurer::disable);
         http.addFilterAfter(jwtTokenGeneratorFilter, BasicAuthenticationFilter.class);
         http.addFilterBefore(jwtValidatorFilter, BasicAuthenticationFilter.class);
         return http.build();
@@ -50,10 +51,10 @@ public class SecurityConfigFilter {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Bean
-    public CompromisedPasswordChecker compromisedPasswordChecker(){
-        return new HaveIBeenPwnedRestApiPasswordChecker();
-    }
+//    @Bean
+//    public CompromisedPasswordChecker compromisedPasswordChecker(){
+//        return new HaveIBeenPwnedRestApiPasswordChecker();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {

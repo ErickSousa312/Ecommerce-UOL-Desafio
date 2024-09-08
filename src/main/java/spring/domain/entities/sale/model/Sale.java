@@ -1,5 +1,7 @@
 package spring.domain.entities.sale.model;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import spring.domain.entities.product.model.Product;
 
 import java.math.BigDecimal;
@@ -8,6 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "sale")
+@Getter @Setter
 public class Sale {
 
     @Id
@@ -25,6 +28,7 @@ public class Sale {
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private Set<Product> products;
+
 
     public void validateSale() {
         if (this.products == null || this.products.isEmpty()) {
