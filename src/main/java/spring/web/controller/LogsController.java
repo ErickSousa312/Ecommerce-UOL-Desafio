@@ -1,17 +1,16 @@
-package spring;
+package spring.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import spring.config.security.userDetails.UserDetailsImpl;
 import spring.domain.events.Login.LoginEventPublisher_experimental;
 
 @RestController
 @RequiredArgsConstructor
-public class WelcomeController {
+public class LogsController {
 
     private final LoginEventPublisher_experimental loginEventPublisherExperimental;
 

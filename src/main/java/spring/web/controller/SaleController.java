@@ -46,4 +46,13 @@ public class SaleController {
         Sale sale = saleService.updateById(id,saleDTO);
         return ResponseEntity.status(HttpStatus.OK).body(sale);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteSaleById(@PathVariable Long id){
+        Boolean deleteSale = saleService.deleteById(id);
+        if(deleteSale){
+            return ResponseEntity.status(HttpStatus.OK).body("Deleted Sale Successfully");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 }

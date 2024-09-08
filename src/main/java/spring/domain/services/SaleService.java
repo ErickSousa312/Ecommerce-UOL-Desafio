@@ -53,6 +53,15 @@ public class SaleService {
         return saleRepository.save(saleUpdated);
     }
 
+    public Boolean deleteById(Long id) {
+        Optional<Sale> sale = saleRepository.findById(id);
+        if (sale.isPresent()) {
+            saleRepository.delete(sale.get());
+            return true;
+        }
+        return false;
+    }
+
 
     private Sale findAndInsertProductAtNewSale(CreateSaleDTO saleDTO) {
         Sale sale = new Sale();
@@ -81,7 +90,6 @@ public class SaleService {
         sale.setProducts(quantityProductsList);
         return sale;
     }
-
 
     private Sale updateProductAtExistSale(CreateSaleDTO saleDTO, Long id) {
         Sale sale = findById(id);

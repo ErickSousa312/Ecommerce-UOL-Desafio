@@ -36,8 +36,6 @@ public class Sale {
         }
     }
 
-
-
     public void addAmount(BigDecimal quantity) {
         if (quantity == null) {
             throw new IllegalArgumentException("Quantity cannot be null");
