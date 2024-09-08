@@ -18,6 +18,7 @@ public class QuantityProduct {
     private Product product;
     private int quantity;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "sale_id")
     private Sale sale;

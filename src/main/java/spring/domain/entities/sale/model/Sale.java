@@ -20,7 +20,7 @@ public class Sale {
 
     private LocalDateTime date;
 
-    private BigDecimal totalAmount;
+    private BigDecimal totalAmount = BigDecimal.valueOf(0);
 
     @OneToMany(mappedBy = "sale", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<QuantityProduct> products;
@@ -32,6 +32,15 @@ public class Sale {
     }
 
     public void addAmount(BigDecimal quantity) {
+        if (quantity == null) {
+            throw new IllegalArgumentException("Quantity cannot be null");
+        }
+        if (quantity.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive");
+        }
+        if (this.totalAmount == null) {
+            throw new IllegalStateException("Total amount cannot be null");
+        }
         this.totalAmount = this.totalAmount.add(quantity);
     }
 

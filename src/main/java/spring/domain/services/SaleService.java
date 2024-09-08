@@ -1,13 +1,8 @@
-package spring;
+package spring.domain.services;
 
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import spring.domain.entities.product.enums.ProductStatus;
 import spring.domain.entities.product.model.Product;
 import spring.domain.entities.sale.dto.CreateSaleDTO;
 import spring.domain.entities.sale.model.QuantityProduct;
@@ -16,35 +11,26 @@ import spring.domain.repositories.ProductRepository;
 import spring.domain.repositories.SaleRepository;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-@SpringBootTest
-public  class MainTests {
+@Service
+@RequiredArgsConstructor
+public class SaleService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final SaleRepository saleRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private SaleRepository saleRepository;
 
-    @BeforeEach
-    void setUp() {
+    @Transactional
+    public Sale save(CreateSaleDTO saleDTO){
+        Sale saleCreated = findAndInsertProductAtNewSale(saleDTO);
+        return saleRepository.save(saleCreated);
     }
 
-    @Test
-    void testCreateSale() {
-        Product productTestttttt = new Product();
-
-        Integer sumCountSale = 0;
-
-        Map<Long,Integer> mapProduct = new LinkedHashMap<Long, Integer>();
-        mapProduct.put(1L,10);
-        mapProduct.put(2L,20);
-        CreateSaleDTO saleDTO  = new CreateSaleDTO(LocalDateTime.now(), BigDecimal.valueOf(100.00),mapProduct);
-
+    private Sale findAndInsertProductAtNewSale(CreateSaleDTO saleDTO ){
         Sale sale = new Sale();
         sale.setDate(LocalDateTime.now());
         sale.setTotalAmount(BigDecimal.valueOf(00.00));
@@ -53,10 +39,9 @@ public  class MainTests {
         for(Map.Entry<Long,Integer> entry : saleDTO.getProductQuantitiesAndIdProducts().entrySet()){
             QuantityProduct quantityProduct = new QuantityProduct();
             Long productId = entry.getKey();
-            List<Product> listP = productRepository.findAll();
             int quantity = entry.getValue();
             Product product = productRepository.findById(productId)
-                            .orElseThrow(() -> new IllegalArgumentException("Produto com ID " + productId + " não encontrado"));
+                    .orElseThrow(() -> new IllegalArgumentException("Produto com ID " + productId + " não encontrado"));
 
             quantityProduct.setProduct(product);
             quantityProduct.setQuantity(quantity);
@@ -66,10 +51,9 @@ public  class MainTests {
             quantityProduct.setSale(sale);
             productRepository.save(product);
         }
+
         sale.setProducts(quantityProductsList);
-        System.out.println("iu");
-        System.out.println(sale);
-        Sale saleSaves = saleRepository.save(sale);
-        System.out.println(saleSaves);
+        return sale;
     }
+
 }

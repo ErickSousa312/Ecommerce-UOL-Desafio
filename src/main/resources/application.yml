@@ -7,7 +7,7 @@ spring:
     active: default
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     open-in-view: true
     properties:
       hibernate:
