@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +27,7 @@ import spring.config.filter.JWT.JWTValidatorFilter;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@EnableMethodSecurity
 @Profile("!prod")
 public class SecurityConfigFilter {
     @Bean
@@ -34,12 +36,15 @@ public class SecurityConfigFilter {
                 .csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/user/apiLogin").permitAll()
+                .requestMatchers("/auth_basic").permitAll()
+                .requestMatchers("/user/forgot_password").permitAll()
+                .requestMatchers("/user/call_back_password").permitAll()
                 .requestMatchers("/wellcome").permitAll()
                 .anyRequest().authenticated());
         http.formLogin(withDefaults());
-//        http.httpBasic(hbs -> hbs.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+        http.httpBasic(hbs -> hbs.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
         http.exceptionHandling(ehc-> ehc.accessDeniedHandler(new CustomHandlerAccessDeniedHandler()).authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
-        http.anonymous(AbstractHttpConfigurer::disable);
+//        http.anonymous(AbstractHttpConfigurer::disable);
         http.addFilterAfter(jwtTokenGeneratorFilter, BasicAuthenticationFilter.class);
         http.addFilterBefore(jwtValidatorFilter, BasicAuthenticationFilter.class);
         return http.build();
@@ -50,10 +55,10 @@ public class SecurityConfigFilter {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Bean
-    public CompromisedPasswordChecker compromisedPasswordChecker(){
-        return new HaveIBeenPwnedRestApiPasswordChecker();
-    }
+//    @Bean
+//    public CompromisedPasswordChecker compromisedPasswordChecker(){
+//        return new HaveIBeenPwnedRestApiPasswordChecker();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {

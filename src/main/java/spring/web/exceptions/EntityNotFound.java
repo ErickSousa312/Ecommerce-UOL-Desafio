@@ -1,4 +1,4 @@
-package spring.web.execption;
+package spring.web.exceptions;
 
 import org.springframework.http.HttpStatus;
 

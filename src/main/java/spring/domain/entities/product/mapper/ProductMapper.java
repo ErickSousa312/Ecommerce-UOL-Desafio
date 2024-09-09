@@ -1,11 +1,10 @@
 package spring.domain.entities.product.mapper;
 
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import spring.domain.entities.product.dto.CreateProductDTO;
 import spring.domain.entities.product.dto.ResponseProductDTO;
+import spring.domain.entities.product.dto.UpdateProductDTO;
 import spring.domain.entities.product.model.Product;
 
 @Mapper(componentModel = "spring")
@@ -16,7 +15,9 @@ public interface ProductMapper {
     @InheritInverseConfiguration
     Product toProduct(CreateProductDTO createProductDTO);
 
-
     ResponseProductDTO toResponseProductDTO(Product product);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateProductFromDto(UpdateProductDTO patchProductDTO, @MappingTarget Product product);
 
 }

@@ -16,7 +16,7 @@ import java.util.Set;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name="product_name")
@@ -29,26 +29,25 @@ public class Product {
 
     private Integer stock;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "products")
-    private Set<Sale> sales;
-
     public void validatePrice() {
         if (this.price.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Price must be greater than zero");
         }
     }
 
-    public void checkStock(Integer quantity) {
+    public void addStock(Integer quantity) {
         if (this.stock == null || this.stock < quantity) {
-            throw new IllegalArgumentException("Stock must be greater than or equal to stock.");
+            throw new IllegalArgumentException("QuantityProduct must be greater than or equal to stock.");
         }
+        this.stock += quantity;
     }
 
-    public void deactivate() {
-        if (this.sales != null && !this.sales.isEmpty()) {
-            throw new IllegalStateException("Product has already been deactivated.");
+    public void reducerStock(Integer quantity) {
+        if (this.stock == null || this.stock < quantity) {
+            throw new IllegalArgumentException("QuantityProduct must be greater than or equal to stock.");
         }
-        this.status = ProductStatus.INACTIVE;
+        this.stock -= quantity;
     }
+
+
 }

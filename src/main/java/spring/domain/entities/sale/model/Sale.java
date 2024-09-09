@@ -1,6 +1,11 @@
 package spring.domain.entities.sale.model;
+
 import jakarta.persistence.*;
-import spring.domain.entities.product.model.Product;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.http.HttpStatus;
+import spring.domain.entities.user.model.Customer;
+import spring.web.exceptions.InvalidSaleException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -8,6 +13,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "sale")
+@Getter
+@Setter
 public class Sale {
 
     @Id
@@ -16,25 +23,32 @@ public class Sale {
 
     private LocalDateTime date;
 
-    private BigDecimal totalAmount;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Customer costumer;
 
-    @ManyToMany
-    @JoinTable(
-            name = "sale_product",
-            joinColumns = @JoinColumn(name = "sale_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private Set<Product> products;
+    private BigDecimal totalAmount = BigDecimal.valueOf(0);
+
+    @OneToMany(mappedBy = "sale", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<QuantityProduct> products;
 
     public void validateSale() {
         if (this.products == null || this.products.isEmpty()) {
-            throw new IllegalArgumentException("Sale must have at least one product");
+            throw new InvalidSaleException("Sale must have at least one product", HttpStatus.BAD_REQUEST);
         }
     }
 
-    public void calculateTotalAmount() {
-        this.totalAmount = products.stream()
-                .map(Product::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    public void addAmount(BigDecimal quantity) {
+        if (quantity == null) {
+            throw new IllegalArgumentException("Quantity cannot be null");
+        }
+        if (quantity.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive");
+        }
+        if (this.totalAmount == null) {
+            throw new IllegalStateException("Total amount cannot be null");
+        }
+        this.totalAmount = this.totalAmount.add(quantity);
     }
+
 }

@@ -1,4 +1,16 @@
 spring:
+  mail:
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
+    username: ${EMAIL_ADDRESS}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
   application:
     name: unit-test-spring
   config:
@@ -7,7 +19,7 @@ spring:
     active: default
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     open-in-view: true
     properties:
       hibernate:
@@ -26,12 +38,6 @@ spring:
       resourceserver:
         jwt:
           public-key-location: classpath:app.pub
-
-jwt:
-  private:
-    key: classpath:app.key
-  public:
-    key: classpath:app.pub
 
 logging:
   pattern:
@@ -52,3 +58,4 @@ server:
   servlet:
     session:
       timeout: 20m
+

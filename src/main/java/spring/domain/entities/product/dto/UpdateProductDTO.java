@@ -6,9 +6,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import spring.domain.entities.user.model.Authority;
+
+import java.util.Set;
 
 @Getter @Setter
-public class CreateProductDTO {
+public class UpdateProductDTO {
+    private Long id;
     @NotBlank(message = "Product name cannot be blank")
     private String productName;
 
