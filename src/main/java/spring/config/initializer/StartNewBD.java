@@ -26,7 +26,7 @@ public class StartNewBD {
     @EventListener(ApplicationReadyEvent .class)
     public void initializerDataBase(){
         createDefaultUser("erick","teste@gmail.com","123","admin");
-        createDefaultUser("erick2","teste2@gmail.com","1232","admin");
+        createDefaultUser("erick2","teste1@gmail.com","1232","user");
         createDefaultProduct();
     }
 
@@ -51,17 +51,19 @@ public class StartNewBD {
     public void createDefaultUser(String name, String email, String password, String role) {
         try {
             List<Customer> customers = customerRepository.findAll();
-            if(customers.isEmpty()){
+            if(true){
 
                 Authority authority1 = new Authority();
                 authority1.setName("ROLE_USER");
 
-                Authority authority2 = new Authority();
-                authority2.setName("ROLE_ADMIN");
-
                 Set<Authority> authorities = new HashSet<>();
                 authorities.add(authority1);
-                authorities.add(authority2);
+
+                Authority authority2 = new Authority();
+                if(customers.isEmpty()){
+                    authority2.setName("ROLE_ADMIN");
+                    authorities.add(authority2);
+                }
 
                 Customer user = new Customer();
                 user.setName(name);

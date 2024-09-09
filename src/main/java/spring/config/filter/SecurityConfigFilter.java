@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +27,7 @@ import spring.config.filter.JWT.JWTValidatorFilter;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@EnableMethodSecurity
 @Profile("!prod")
 public class SecurityConfigFilter {
     @Bean
@@ -34,7 +36,7 @@ public class SecurityConfigFilter {
                 .csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/user/apiLogin").permitAll()
-                .requestMatchers("/info").permitAll()
+                .requestMatchers("/auth_basic").permitAll()
                 .requestMatchers("/wellcome").permitAll()
                 .anyRequest().authenticated());
         http.formLogin(withDefaults());

@@ -3,11 +3,14 @@ package spring.config.advice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import spring.web.exceptions.CustomRunTimeException;
+
+import java.nio.file.AccessDeniedException;
 
 @RestControllerAdvice
 public class AdviceExceptionHandler {
@@ -37,6 +40,7 @@ public class AdviceExceptionHandler {
         ErrorResponseImpl errorResponse = new ErrorResponseImpl("Null pointer encountered: " + ex.getMessage(), statusCode);
         return ResponseEntity.status(statusCode).body(errorResponse);
     }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponseImpl> handleRuntimeException(RuntimeException ex) {
         ErrorResponseImpl errorResponse = new ErrorResponseImpl(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -52,7 +56,12 @@ public class AdviceExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponseImpl> HandleFilterRuntimeException(AuthenticationException ex) {
         ErrorResponseImpl errorResponse = new ErrorResponseImpl(ex.getMessage(), HttpStatus.ACCEPTED);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ErrorResponseImpl> HandleFilterRuntimeException(AccessDeniedException ex) {
+        ErrorResponseImpl errorResponse = new ErrorResponseImpl(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    }
 }

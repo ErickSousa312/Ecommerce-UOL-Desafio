@@ -19,7 +19,7 @@ public class LogsController {
         System.out.println(authentication);
         return "Hello World";
     }
-    @GetMapping("/info")
+    @GetMapping("/auth_basic")
     public String userInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();

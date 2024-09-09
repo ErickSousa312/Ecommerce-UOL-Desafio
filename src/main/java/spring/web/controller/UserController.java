@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,10 +30,10 @@ public class UserController {
     private final Environment env;
     private final JWTService jwtService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register")
     ResponseEntity<?> RegisterUser(@RequestBody Customer customer) {
         try {
-
             String encodedPassword = passwordEncoder.encode(customer.getPws());
 
             if(customerRepository.existsByEmail(customer.getEmail())) {
@@ -64,6 +65,4 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).header(ApplicationConstants.JWT_HEADER,jwt)
                 .body(new LoginResponseDTO(HttpStatus.OK.getReasonPhrase(),jwt));
     }
-
-
 }
