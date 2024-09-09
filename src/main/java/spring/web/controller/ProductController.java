@@ -1,8 +1,10 @@
 package spring.web.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import spring.domain.entities.product.dto.CreateProductDTO;
 import spring.domain.entities.product.dto.ResponseProductDTO;
@@ -23,7 +25,7 @@ public class ProductController {
     private final ProductMapper productMapper;
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody CreateProductDTO createProductDTO) {
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody CreateProductDTO createProductDTO) {
         Product createdProduct = productService.save(createProductDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
@@ -44,14 +46,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseProductDTO> updatePutProduct(@RequestBody CreateProductDTO productDTO, @PathVariable Long id) {
+    public ResponseEntity<ResponseProductDTO> updatePutProduct(@Valid @RequestBody CreateProductDTO productDTO, @PathVariable Long id) {
         Product productUpdated = productService.updateById(productDTO, id);
         ResponseProductDTO responseProductDTO = productMapper.toResponseProductDTO(productUpdated);
         return ResponseEntity.status(HttpStatus.OK).body(responseProductDTO);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ResponseProductDTO> updatePatchProduct(@RequestBody UpdateProductDTO productDTO, @PathVariable Long id) {
+    public ResponseEntity<ResponseProductDTO> updatePatchProduct(@Valid @RequestBody UpdateProductDTO productDTO, @PathVariable Long id) {
         Product productUpdated = productService.updatePartialById(productDTO, id);
         ResponseProductDTO responseProductDTO = productMapper.toResponseProductDTO(productUpdated);
         return ResponseEntity.status(HttpStatus.OK).body(responseProductDTO);

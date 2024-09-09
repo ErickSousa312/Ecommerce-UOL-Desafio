@@ -2,6 +2,7 @@ package spring.web.controller;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -37,9 +38,14 @@ public class UserController {
     private final JWTService jwtService;
 
     @PostMapping("/register")
-    ResponseEntity<String> RegisterUser(@RequestBody Customer customer) {
+    ResponseEntity<?> RegisterUser(@RequestBody Customer customer) {
         try {
+
             String encodedPassword = passwordEncoder.encode(customer.getPws());
+
+            if(customerRepository.existsByEmail(customer.getEmail())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+            }
 
             for (Authority authority : customer.getAuthority()) {
                 authority.setCustomer(customer);
@@ -47,7 +53,7 @@ public class UserController {
             customer.setPws(encodedPassword);
             Customer newUser = customerRepository.save(customer);
             if (newUser.getId() > 0) {
-                return ResponseEntity.status(HttpStatus.CREATED).body(newUser.toString());
+                return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
             }
             return ResponseEntity.status(400).body("user not register");
         }catch (Exception e) {
@@ -56,9 +62,9 @@ public class UserController {
 
     }
     @PostMapping("/apiLogin")
-    public ResponseEntity<LoginResponseDTO> Login(@RequestBody LoginRequestDTO loginRequest) {
+    public ResponseEntity<LoginResponseDTO> Login(@Valid @RequestBody LoginRequestDTO loginRequest) {
         String jwt = "";
-        Authentication authentication = UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.userName(), loginRequest.password());
+        Authentication authentication = UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.getUserName(), loginRequest.getPassword());
         Authentication authenticationResponse = authenticationManager.authenticate(authentication);
         if(authenticationResponse.isAuthenticated()) {
             jwt = jwtService.generateJWT(authenticationResponse);
@@ -66,4 +72,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).header(ApplicationConstants.JWT_HEADER,jwt)
                 .body(new LoginResponseDTO(HttpStatus.OK.getReasonPhrase(),jwt));
     }
+
+
 }

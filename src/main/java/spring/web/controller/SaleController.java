@@ -1,5 +1,6 @@
 package spring.web.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class SaleController {
     private final SaleService saleService;
 
     @PostMapping
-    public ResponseEntity<Sale> addSale(@RequestBody CreateSaleDTO saleDTO){
+    public ResponseEntity<Sale> addSale(@Valid @RequestBody CreateSaleDTO saleDTO){
         Sale sale = saleService.save(saleDTO);
         return ResponseEntity.status(HttpStatus.OK).body(sale);
     }
@@ -42,7 +43,7 @@ public class SaleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Sale> updatePutSale(@PathVariable Long id, @RequestBody CreateSaleDTO saleDTO){
+    public ResponseEntity<Sale> updatePutSale(@PathVariable Long id,@Valid @RequestBody CreateSaleDTO saleDTO){
         Sale sale = saleService.updateById(id,saleDTO);
         return ResponseEntity.status(HttpStatus.OK).body(sale);
     }

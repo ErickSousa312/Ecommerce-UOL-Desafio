@@ -3,7 +3,9 @@ package spring.domain.entities.sale.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 import spring.domain.entities.user.model.Customer;
+import spring.web.execption.InvalidSaleException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -32,7 +34,7 @@ public class Sale {
 
     public void validateSale() {
         if (this.products == null || this.products.isEmpty()) {
-            throw new IllegalArgumentException("Sale must have at least one product");
+            throw new InvalidSaleException("Sale must have at least one product", HttpStatus.BAD_REQUEST);
         }
     }
 

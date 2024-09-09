@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import spring.web.execption.CustomRunTimeException;
@@ -14,6 +15,13 @@ public class AdviceExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleAllExceptions(Exception ex, HttpStatusCode statusCode) {
         return ResponseEntity.status(statusCode).body(new ErrorResponseImpl(ex.getMessage(), statusCode));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponseValidatorImpl> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        HttpStatusCode statusCode = HttpStatus.BAD_REQUEST;
+        ErrorResponseValidatorImpl errorResponse = new ErrorResponseValidatorImpl(ex, statusCode);
+        return ResponseEntity.status(statusCode).body(errorResponse);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

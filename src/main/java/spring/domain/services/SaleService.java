@@ -36,6 +36,7 @@ public class SaleService {
     @Transactional
     public Sale save(CreateSaleDTO saleDTO) {
         Sale saleCreated = findAndInsertProductAtNewSale(saleDTO);
+        saleCreated.validateSale();
         return saleRepository.save(saleCreated);
     }
 
