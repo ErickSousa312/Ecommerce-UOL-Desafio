@@ -25,7 +25,7 @@ public class LogsController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String username = authentication.getName();
         String authorities = authentication.getAuthorities().toString();
-        return "Usuário: " + username + ", Permissões: " + authorities + "  Dados adicionais:" + userDetails.getAdditionalParameter();
+        return "Usuário: " + username + ", Permissões: " + authorities + "  Dados adicionais: " + userDetails.getAdditionalParameter();
     }
     @GetMapping("/event")
     public String event() {
