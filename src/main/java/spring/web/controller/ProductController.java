@@ -4,15 +4,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import spring.domain.entities.product.dto.CreateProductDTO;
 import spring.domain.entities.product.dto.ResponseProductDTO;
 import spring.domain.entities.product.dto.UpdateProductDTO;
 import spring.domain.entities.product.mapper.ProductMapper;
 import spring.domain.entities.product.model.Product;
-import spring.domain.repositories.ProductRepository;
-import spring.domain.services.ProductService;
+import spring.services.ProductService;
 
 import java.util.List;
 

@@ -8,8 +8,8 @@ import spring.domain.entities.product.enums.ProductStatus;
 import spring.domain.entities.product.model.Product;
 import spring.domain.entities.user.model.Authority;
 import spring.domain.entities.user.model.Customer;
-import spring.domain.repositories.CustomerRepository;
-import spring.domain.repositories.ProductRepository;
+import spring.repositories.CustomerRepository;
+import spring.repositories.ProductRepository;
 
 import java.math.BigDecimal;
 import java.util.HashSet;

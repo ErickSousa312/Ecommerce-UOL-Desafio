@@ -1,4 +1,4 @@
-package spring.domain.services;
+package spring.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

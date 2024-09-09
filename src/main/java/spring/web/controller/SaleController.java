@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.domain.entities.sale.dto.CreateSaleDTO;
 import spring.domain.entities.sale.model.Sale;
-import spring.domain.services.SaleService;
+import spring.services.SaleService;
 import spring.web.exceptions.EntityNotFound;
 
 import java.util.List;

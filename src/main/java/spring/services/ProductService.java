@@ -1,4 +1,4 @@
-package spring.domain.services;
+package spring.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -7,7 +7,7 @@ import spring.domain.entities.product.dto.CreateProductDTO;
 import spring.domain.entities.product.dto.UpdateProductDTO;
 import spring.domain.entities.product.mapper.ProductMapper;
 import spring.domain.entities.product.model.Product;
-import spring.domain.repositories.ProductRepository;
+import spring.repositories.ProductRepository;
 import spring.web.exceptions.EntityAlreadyExistsException;
 import spring.web.exceptions.EntityNotFound;
 import spring.web.exceptions.MustNotBeNullException;

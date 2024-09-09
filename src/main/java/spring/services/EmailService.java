@@ -1,4 +1,4 @@
-package spring.domain.services;
+package spring.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;

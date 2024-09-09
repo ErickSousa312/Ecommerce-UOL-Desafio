@@ -11,7 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import spring.constants.ApplicationConstants;
-import spring.domain.services.JWTService;
+import spring.services.JWTService;
 
 import java.io.IOException;
 
