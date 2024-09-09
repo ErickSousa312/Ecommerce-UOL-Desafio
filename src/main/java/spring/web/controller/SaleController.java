@@ -5,12 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import spring.domain.entities.sale.dto.CreateSaleDTO;
 import spring.domain.entities.sale.model.Sale;
-import spring.domain.repositories.SaleRepository;
 import spring.domain.services.SaleService;
-import spring.web.execption.EntityNotFound;
+import spring.web.exceptions.EntityNotFound;
 
 import java.util.List;
 

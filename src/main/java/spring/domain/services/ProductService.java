@@ -1,19 +1,16 @@
 package spring.domain.services;
 
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import spring.domain.entities.product.dto.CreateProductDTO;
-import spring.domain.entities.product.dto.ResponseProductDTO;
 import spring.domain.entities.product.dto.UpdateProductDTO;
 import spring.domain.entities.product.mapper.ProductMapper;
 import spring.domain.entities.product.model.Product;
 import spring.domain.repositories.ProductRepository;
-import spring.web.execption.EntityAlreadyExistsException;
-import spring.web.execption.EntityNotFound;
-import spring.web.execption.MustNotBeNullException;
+import spring.web.exceptions.EntityAlreadyExistsException;
+import spring.web.exceptions.EntityNotFound;
+import spring.web.exceptions.MustNotBeNullException;
 
 import java.util.List;
 import java.util.Optional;

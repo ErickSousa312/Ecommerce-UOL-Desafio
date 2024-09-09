@@ -15,7 +15,7 @@ import spring.domain.repositories.CustomerRepository;
 import spring.domain.repositories.ProductRepository;
 import spring.domain.repositories.QuantityProductRepository;
 import spring.domain.repositories.SaleRepository;
-import spring.web.execption.EntityNotFound;
+import spring.web.exceptions.EntityNotFound;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

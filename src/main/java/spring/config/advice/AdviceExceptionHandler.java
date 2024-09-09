@@ -7,7 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import spring.web.execption.CustomRunTimeException;
+import spring.web.exceptions.CustomRunTimeException;
 
 @RestControllerAdvice
 public class AdviceExceptionHandler {

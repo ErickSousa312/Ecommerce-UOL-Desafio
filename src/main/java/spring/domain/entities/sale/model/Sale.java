@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import spring.domain.entities.user.model.Customer;
-import spring.web.execption.InvalidSaleException;
+import spring.web.exceptions.InvalidSaleException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
