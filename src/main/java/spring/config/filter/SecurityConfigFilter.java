@@ -37,6 +37,8 @@ public class SecurityConfigFilter {
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/user/apiLogin").permitAll()
                 .requestMatchers("/auth_basic").permitAll()
+                .requestMatchers("/user/forgot_password").permitAll()
+                .requestMatchers("/user/call_back_password").permitAll()
                 .requestMatchers("/wellcome").permitAll()
                 .anyRequest().authenticated());
         http.formLogin(withDefaults());

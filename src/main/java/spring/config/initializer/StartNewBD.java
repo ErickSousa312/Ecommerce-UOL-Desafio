@@ -25,8 +25,8 @@ public class StartNewBD {
 
     @EventListener(ApplicationReadyEvent .class)
     public void initializerDataBase(){
-        createDefaultUser("erick","teste@gmail.com","123","admin");
-        createDefaultUser("erick2","teste1@gmail.com","1232","user");
+        createDefaultUser("erick","erick.gaia@unifesspa.edu.br","{bcrypt}$2a$10$MT7uafKeDOHZbV7TR/B4auTmpiu1xSB9l9J4F1.BGb8UgJZJb/z7O","admin");
+        createDefaultUser("erick2","teste@gmail.com","{bcrypt}$2a$10$MT7uafKeDOHZbV7TR/B4auTmpiu1xSB9l9J4F1.BGb8UgJZJb/z7O","user");
         createDefaultProduct();
     }
 

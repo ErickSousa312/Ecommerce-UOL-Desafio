@@ -61,10 +61,33 @@ public class JWTService {
         SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         Claims claims = Jwts.parser().verifyWith(secretKey)
                 .build().parseSignedClaims(jwt).getPayload();
-        String username = String.valueOf(claims.get("username"));
-        String authorities = String.valueOf(claims.get("authorities"));
+        String username = String.valueOf(claims.get("email"));
+        String authorities = String.valueOf(claims.get("role"));
         UsernamePasswordAuthenticationToken  authentication = new UsernamePasswordAuthenticationToken(username, null,
                 AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
         return  authentication;
+    }
+
+    public String generateJWTResetPassword(String email) {
+        String secret = env.getProperty(ApplicationConstants.JWT_SECRET, ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
+        SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        String token = Jwts
+                .builder()
+                .issuer("teste")
+                .subject("JWT Token")
+                .claim("email", email)
+                .issuedAt(new Date())
+                .expiration(new Date(new Date().getTime() + 1000 * 60 * 60 ))
+                .signWith(secretKey).compact();
+        return token;
+    }
+
+    public String getEmailByToken(String jwt) {
+        String secret = env.getProperty(ApplicationConstants.JWT_SECRET,
+                ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
+        SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        Claims claims = Jwts.parser().verifyWith(secretKey)
+                .build().parseSignedClaims(jwt).getPayload();
+        return String.valueOf(claims.get("email"));
     }
 }
