@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +18,7 @@ import spring.domain.entities.user.model.Customer;
 import spring.domain.entities.user.dto.LoginRequestDTO;
 import spring.domain.entities.user.dto.LoginResponseDTO;
 import spring.repositories.CustomerRepository;
+import spring.services.EmailService;
 import spring.services.JWTService;
 
 @RestController()
@@ -29,6 +31,7 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final Environment env;
     private final JWTService jwtService;
+    private final EmailService emailService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register")
@@ -64,5 +67,16 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.OK).header(ApplicationConstants.JWT_HEADER,jwt)
                 .body(new LoginResponseDTO(HttpStatus.OK.getReasonPhrase(),jwt));
+    }
+
+    @GetMapping("/forgot_password")
+    public ResponseEntity<?> ForgotPassword(Authentication authentication) {
+        System.out.println("oi");
+        try{
+            emailService.send("erick.gaia@unifesspa.edu.br","testes de envio ", "email enviado via aplicação");
+        }catch (MailException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("email enviado");
     }
 }
